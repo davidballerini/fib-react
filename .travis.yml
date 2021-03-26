@@ -9,14 +9,14 @@ script:
   - docker run -e CI=true extramagnetdavid/fib-client-test npm test -- --coverage
 
 after_success:
-  - docker build -t extramagnetdavid/fib-nging ./nginx
+  - docker build -t extramagnetdavid/fib-nginx ./nginx
   - docker build -t extramagnetdavid/fib-client ./client
   - docker build -t extramagnetdavid/fib-api ./server
   - docker build -t extramagnetdavid/fib-worker ./worker
 
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
-  - docker push extramagnetdavid/fib-nging
+  - docker push extramagnetdavid/fib-nginx
   - docker push extramagnetdavid/fib-client
   - docker push extramagnetdavid/fib-api
   - docker push extramagnetdavid/fib-worker
