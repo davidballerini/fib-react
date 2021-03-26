@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t extramagnetdavid/fib-client-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true extramagnetdavid/fib-client-test npm test -- --coverage
+
+after_success:
+  - docker built -t extramagnetdavid/fib-nging ./nginx
+  - docker built -t extramagnetdavid/fib-client ./client
+  - docker built -t extramagnetdavid/fib-api ./server
+  - docker built -t extramagnetdavid/fib-worker ./worker
+
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  - docker push extramagnetdavid/fib-nging
+  - docker push extramagnetdavid/fib-client
+  - docker push extramagnetdavid/fib-api
+  - docker push extramagnetdavid/fib-worker
