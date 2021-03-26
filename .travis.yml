@@ -9,10 +9,10 @@ script:
   - docker run -e CI=true extramagnetdavid/fib-client-test npm test -- --coverage
 
 after_success:
-  - docker built -t extramagnetdavid/fib-nging ./nginx
-  - docker built -t extramagnetdavid/fib-client ./client
-  - docker built -t extramagnetdavid/fib-api ./server
-  - docker built -t extramagnetdavid/fib-worker ./worker
+  - docker build -t extramagnetdavid/fib-nging ./nginx
+  - docker build -t extramagnetdavid/fib-client ./client
+  - docker build -t extramagnetdavid/fib-api ./server
+  - docker build -t extramagnetdavid/fib-worker ./worker
 
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
